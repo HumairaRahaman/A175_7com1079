@@ -1,32 +1,39 @@
-library(ggplot2)
-library(readr)  
+library(readr)
 
-# dataset
+happiness_data <- read_csv("2016.csv")
 
-data <- read.csv("2016.csv")
-head(data)
+names(happiness_data)[4] <- "happiness_score"
+names(happiness_data)[7] <- "gdp_per_capita"
 
-# Histogram for Happiness Score with Normal Curve Overlay
-ggplot(data, aes(x = Happiness.Score)) +
-  geom_histogram(aes(y = after_stat(density)), binwidth = 0.2, fill = "seagreen", alpha = 0.6) +
-  stat_function(fun = dnorm, args = list(mean = mean(data$Happiness.Score, na.rm = TRUE), 
-                                         sd = sd(data$Happiness.Score, na.rm = TRUE)), 
-                color = "red", linewidth = 1) +
-  ggtitle("Histogram of Happiness Score with Normal Curve") +
-  xlab("Happiness Score") +
-  ylab("Density")
+df2 <- subset(happiness_data, !is.na(happiness_score) & !is.na(gdp_per_capita))
+# Histogram for Happiness Score with a normal curve overlay
+hist(df2$happiness_score, 
+     main = "Histogram of Happiness Score with Normal Curve", 
+     xlab = "Happiness Score", 
+     col = "lightgreen", 
+     border = "black", 
+     freq = FALSE)  # Use density for y-axis to overlay curve
 
-# Plotting a Normal Distribution Curve
-x <- seq(min(data$Happiness.Score, na.rm = TRUE), max(data$Happiness.Score, na.rm = TRUE), length.out = 100)
-y <- dnorm(x, mean = mean(data$Happiness.Score, na.rm = TRUE), sd = sd(data$Happiness.Score, na.rm = TRUE))
-plot(x, y, type = "l", col = "blue", lwd = 2, main = "Normal Distribution Curve", 
-     xlab = "Happiness Score", ylab = "Density")
+# Normal distribution curve
+curve(dnorm(x, mean = mean(df2$happiness_score), sd = sd(df2$happiness_score)), 
+      col = "red", 
+      lwd = 2, 
+      add = TRUE)
 
-# Scatterplot with Linear Trendline 
-ggplot(data, aes(x = Economy..GDP.per.Capita., y = Happiness.Score)) +
-  geom_point(color = "purple", size = 2, alpha = 0.7) +                     
-  geom_smooth(method = "lm", color = "red", se = FALSE) +               
-  ggtitle("Scatterplot of Happiness Score vs Economy (GDP per Capita)") +
-  xlab("Economy (GDP per Capita)") +
-  ylab("Happiness Score")
+# Correlation test using Pearson
+correlation_result <- cor.test(df2$happiness_score, df2$gdp_per_capita, method = "pearson")
+# Correlation test result
+print("Correlation test =")
+print(correlation_result)
+
+# Scatterplot with linear trendline
+plot(df2$gdp_per_capita, df2$happiness_score,
+     xlab = "GDP Per Capita", 
+     ylab = "Happiness Score", 
+     main = "Scatterplot of GDP Per Capita vs Happiness Score",
+     col = "blue", 
+     pch = 16)
+# Linear trend line to the scatterplot
+abline(lm(happiness_score ~ gdp_per_capita, data = df2), col = "red", lwd = 2)
+
 
