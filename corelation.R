@@ -36,4 +36,15 @@ plot(df2$gdp_per_capita, df2$happiness_score,
 # Linear trend line to the scatterplot
 abline(lm(happiness_score ~ gdp_per_capita, data = df2), col = "red", lwd = 2)
 
+# Fit a linear model
+lm_model <- lm(Happiness.Score ~ Economy..GDP.per.Capita., data = data)
+
+# catterplot with explicit trendline
+ggplot(data, aes(x = Economy..GDP.per.Capita., y = Happiness.Score)) +
+  geom_point(color = "blue", size = 2, alpha = 0.7) +
+  geom_abline(intercept = coef(lm_model)[1], slope = coef(lm_model)[2],
+              color = "red", size = 1) +
+  ggtitle("Scatterplot with Explicit Linear Trendline") +
+  xlab("Economy (GDP per Capita)") +
+  ylab("Happiness Score")
 
