@@ -1,9 +1,11 @@
 library(readr)
 
-happiness_data <- read_csv("2016.csv")
+happiness_information <- read_csv("2016.csv")
 
-names(happiness_data)[4] <- "happiness_score"
-names(happiness_data)[7] <- "gdp_per_capita"
+names(happiness_information)[4] <- "happiness_score"
+names(happiness_information)[7] <- "gdp_per_capita"
+names(happiness_information)[8] <- "family"
+names(happiness_information)[10] <- "freedom"
 
 df2 <- subset(happiness_data, !is.na(happiness_score) & !is.na(gdp_per_capita))
 # Histogram for Happiness Score with a normal curve overlay
