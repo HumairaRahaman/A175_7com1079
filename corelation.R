@@ -31,11 +31,12 @@ print(correlation_result)
 
 # Scatterplot with linear trendline
 plot(df4$gdp_per_capita, df4$happiness_score,
-     xlab = "GDP Per Capita", 
+     xlab = "Economy (GDP Per Capita)", 
      ylab = "Happiness Score", 
-     main = "Scatterplot of GDP Per Capita vs Happiness Score",
+     main = "Scatterplot of Economy (GDP Per Capita) vs Happiness Score",
      col = "blue", 
-     pch = 16)
+     pch = 16,
+     xlim = c(min(df4$gdp_per_capita), max(df4$gdp_per_capita)))
 # Linear trend line to the scatterplot
 abline(lm(happiness_score ~ gdp_per_capita, data = df4), col = "red", lwd = 2)
 
