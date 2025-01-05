@@ -12,9 +12,11 @@ df4 <- subset(happiness_information, !is.na(happiness_score) & !is.na(gdp_per_ca
 hist(df4$happiness_score, 
      main = "Histogram of Happiness Score with Normal Curve", 
      xlab = "Happiness Score", 
-     col = "darkgreen", 
-     border = "darkblue", 
-     freq = FALSE)  # Use density for y-axis to overlay curve
+     col = "lightgreen", 
+     border = "black", 
+     freq = FALSE,
+     ylim = c(0, 0.35)
+     )  # Use density for y-axis to overlay curve
 
 # Normal distribution curve
 curve(dnorm(x, mean = mean(df4$happiness_score), sd = sd(df4$happiness_score)), 
